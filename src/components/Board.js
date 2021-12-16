@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 const generateSquareComponents = (squares, onClickCallback) => {
   const singleArraySquares = [].concat(...squares);
   return singleArraySquares.map((square) => {
+    console.log;
     return (
       <Square
         value={square.value}

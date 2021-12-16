@@ -3,8 +3,8 @@ import './App.css';
 
 import Board from './components/Board';
 
-const player_1 = 'x';
-const player_2 = 'o';
+const PLAYER_1 = 'X';
+const PLAYER_2 = 'O';
 
 const generateSquares = () => {
   const squares = [];
@@ -22,6 +22,9 @@ const generateSquares = () => {
     }
   }
 
+  console.log(squares);
+  squares[1][1].value = PLAYER_1;
+
   return squares;
 };
 
@@ -29,6 +32,25 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
+  console.log('2nd');
+  console.log(squares);
+
+  // this is the fuction for the onClick callback-so when the sure click the square, call updateSquareData
+  const updateSquareData = (updatedSquare) => {
+    const newSquares = squares.map((row) => {
+      return row.map((square) => {
+        if (square.id === updatedSquare.id) {
+          return updatedSquare;
+        } else {
+          return square;
+        }
+      });
+    });
+
+    setSquares(newSquares);
+  };
+
+  // updateSquareData({ id: 4, value: PLAYER_1 });
 
   // Wave 2
   // You will need to create a method to change the square
@@ -88,7 +110,7 @@ const App = () => {
         <button>Reset Game</button>
       </header>
       <main>
-        <Board squares={squares} />
+        <Board squares={squares} onClickCallback={updateSquareData} />
       </main>
     </div>
   );
