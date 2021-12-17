@@ -7,11 +7,10 @@ import PropTypes from 'prop-types';
 const generateSquareComponents = (squares, onClickCallback) => {
   const singleArraySquares = [].concat(...squares);
   return singleArraySquares.map((square) => {
-    console.log;
     return (
       <Square
-        value={square.value}
         id={square.id}
+        value={square.value}
         onClickCallback={onClickCallback}
         key={square.id}
       />

@@ -12,7 +12,7 @@ const Square = (props) => {
     <button
       className="square"
       onClick={() => {
-        props.onClickCallback({ id: props.id, value: 'X' });
+        props.onClickCallback({ id: props.id });
       }}
     >
       {props.value}

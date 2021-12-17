@@ -3,8 +3,8 @@ import './App.css';
 
 import Board from './components/Board';
 
-const PLAYER_1 = 'X';
-const PLAYER_2 = 'O';
+const PLAYER_1 = 'x';
+const PLAYER_2 = 'o';
 
 const generateSquares = () => {
   const squares = [];
@@ -22,8 +22,8 @@ const generateSquares = () => {
     }
   }
 
-  console.log(squares);
-  squares[1][1].value = PLAYER_1;
+  // console.log(squares);
+  // squares[1][1].value = PLAYER_1;
 
   return squares;
 };
@@ -32,22 +32,40 @@ const App = () => {
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
-  console.log('2nd');
-  console.log(squares);
+  const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
+
+  // console.log('2nd');
+  // console.log(squares);
 
   // this is the fuction for the onClick callback-so when the sure click the square, call updateSquareData
   const updateSquareData = (updatedSquare) => {
-    const newSquares = squares.map((row) => {
-      return row.map((square) => {
-        if (square.id === updatedSquare.id) {
-          return updatedSquare;
-        } else {
-          return square;
+    console.log(squares);
+    const newSquares = [...squares];
+    for (let row = 0; row < squares.length; row++) {
+      for (let col = 0; col < squares.length; col++) {
+        if (newSquares[row][col].id === updatedSquare.id) {
+          newSquares[row][col].value = currentPlayer;
         }
-      });
-    });
-
+      }
+    }
     setSquares(newSquares);
+    // if current player is player2 then it switch to player1
+    setCurrentPlayer(currentPlayer === PLAYER_2 ? PLAYER_1 : PLAYER_2);
+
+    checkForWinner();
+    // for some reaons map didn't work. array objec is undefined.
+    // console.log(updatedSquare);
+    // const newSquares = squares.map((row) => {
+    //   return row.map((square) => {
+    //     console.log(square);
+    // if (square.id === updatedSquare.id) {
+    //   // console.log(square);
+    //   square.value = currentPlayer;
+    // }
+    //   });
+    // });
+    // console.log(newSquares);
+    // setSquares(newSquares);
   };
 
   // updateSquareData({ id: 4, value: PLAYER_1 });
@@ -97,6 +115,10 @@ const App = () => {
 
     return null;
   };
+
+  // const resetGame = () => {
+  //   // Complete in Wave 4
+  // };
 
   const resetGame = () => {
     // Complete in Wave 4
