@@ -34,12 +34,12 @@ const App = () => {
   const [squares, setSquares] = useState(generateSquares());
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
 
-  // console.log('2nd');
   // console.log(squares);
 
-  // this is the fuction for the onClick callback-so when the sure click the square, call updateSquareData
+  // this is the fuction for the onClickCallback button-so when the user click the square, it calls updateSquareData
   const updateSquareData = (updatedSquare) => {
     console.log(squares);
+    // spread is copying the who array of squares
     const newSquares = [...squares];
     for (let row = 0; row < squares.length; row++) {
       for (let col = 0; col < squares.length; col++) {
@@ -121,15 +121,32 @@ const App = () => {
   // };
 
   const resetGame = () => {
+    //use setSquares to reset the squares
+    // useState is for initialzing the state
+    // update data to blank
+    setSquares(generateSquares());
+    setCurrentPlayer(PLAYER_1);
+
     // Complete in Wave 4
   };
+
+  // const displayWinner = () => {
+  //   if (checkForWinner) {
+  //     return `The Winner is ${checkForWinner}`;
+  //   } else {
+  //     return `Current Player ${checkForWinner}`;
+  //   }
+  // };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is ... -- Fill in for wave 3 </h2>
-        <button>Reset Game</button>
+        <h2>The winner is {checkForWinner()} </h2>
+        {/* give the function to call the resetGame for the anyomous */}
+        {/* onClick={() => {resetGame()}} */}
+        {/* telling React to call the function vs to tell React to call my Anyomnous fuct. */}
+        <button onClick={resetGame}>Reset Game</button>
       </header>
       <main>
         <Board squares={squares} onClickCallback={updateSquareData} />
