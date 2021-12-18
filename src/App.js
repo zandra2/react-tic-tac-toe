@@ -1,3 +1,4 @@
+import { check } from 'prettier';
 import React, { useState } from 'react';
 import './App.css';
 
@@ -29,53 +30,46 @@ const generateSquares = () => {
 };
 
 const App = () => {
+  // Wave 2
+  // You will need to create a method to change the square
+  //   When it is clicked on.
+  //   Then pass it into the squares as a callback
+
   // This starts state off as a 2D array of JS objects with
   // empty value and unique ids.
   const [squares, setSquares] = useState(generateSquares());
+  console.log(squares);
   const [currentPlayer, setCurrentPlayer] = useState(PLAYER_1);
 
   // console.log(squares);
 
-  // this is the fuction for the onClickCallback button-so when the user click the square, it calls updateSquareData
+  // this is the function for the onClickCallback button-so when the user click the square, it calls updateSquareData
   const updateSquareData = (updatedSquare) => {
     console.log(squares);
     // spread is copying the who array of squares
     const newSquares = [...squares];
     for (let row = 0; row < squares.length; row++) {
       for (let col = 0; col < squares.length; col++) {
-        if (newSquares[row][col].id === updatedSquare.id) {
-          newSquares[row][col].value = currentPlayer;
+        if (checkForWinner() === null) {
+          if (newSquares[row][col].id === updatedSquare.id) {
+            if (newSquares[row][col].value === '') {
+              newSquares[row][col].value = currentPlayer;
+              setCurrentPlayer(
+                currentPlayer === PLAYER_2 ? PLAYER_1 : PLAYER_2
+              );
+            }
+          }
         }
       }
     }
     setSquares(newSquares);
     // if current player is player2 then it switch to player1
-    setCurrentPlayer(currentPlayer === PLAYER_2 ? PLAYER_1 : PLAYER_2);
 
     checkForWinner();
-    // for some reaons map didn't work. array objec is undefined.
-    // console.log(updatedSquare);
-    // const newSquares = squares.map((row) => {
-    //   return row.map((square) => {
-    //     console.log(square);
-    // if (square.id === updatedSquare.id) {
-    //   // console.log(square);
-    //   square.value = currentPlayer;
-    // }
-    //   });
-    // });
-    // console.log(newSquares);
-    // setSquares(newSquares);
   };
 
-  // updateSquareData({ id: 4, value: PLAYER_1 });
-
-  // Wave 2
-  // You will need to create a method to change the square
-  //   When it is clicked on.
-  //   Then pass it into the squares as a callback
-
   const checkForWinner = () => {
+    // console.log(checkForWinner);
     let i = 0;
 
     // Check all the rows and columns for a winner
@@ -131,18 +125,28 @@ const App = () => {
   };
 
   // const displayWinner = () => {
-  //   if (checkForWinner) {
-  //     return `The Winner is ${checkForWinner}`;
-  //   } else {
-  //     return `Current Player ${checkForWinner}`;
-  //   }
+  //   return `Current Player ${checkForWinner()}`;
   // };
+
+  // set a different message if there is no winner
+  const displayMessage = () => {
+    let winner = checkForWinner();
+    console.log(winner);
+    let message = '';
+    if (winner !== null) {
+      message = `Winner is ${winner}`;
+    } else {
+      message = `Current Player ${currentPlayer}`;
+    }
+    return message;
+  };
 
   return (
     <div className="App">
       <header className="App-header">
         <h1>React Tic Tac Toe</h1>
-        <h2>The winner is {checkForWinner()} </h2>
+        {/* <h2>{displayWinner()} </h2> */}
+        <h2>{displayMessage()}</h2>
         {/* give the function to call the resetGame for the anyomous */}
         {/* onClick={() => {resetGame()}} */}
         {/* telling React to call the function vs to tell React to call my Anyomnous fuct. */}
